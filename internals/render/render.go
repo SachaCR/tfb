@@ -63,7 +63,7 @@ func calculateChordWidth(chord string) (int, int) {
 	return min, max
 }
 
-func RenderChord(neck neck.Neck, chord string, root music.Note) (string, error) {
+func RenderChord(neck neck.Neck, chord string, root music.Note, chordName string) (string, error) {
 	fretsToDraw := strings.Split(chord, "-")
 
 	if len(fretsToDraw) != neck.StringCount() {
@@ -73,18 +73,17 @@ func RenderChord(neck neck.Neck, chord string, root music.Note) (string, error) 
 	minFret, maxFret := calculateChordWidth(chord)
 
 	noteList := neck.Tuning()
-	renderString := ""
 
+	renderString := "     " + strconv.Itoa(minFret) + "th"
+
+	// We render backward to have the high E on top and the low E bottom
 	for i := len(fretsToDraw); i > 0; i-- {
 		fret := fretsToDraw[i-1]
-
-		// To render from high to bass: Start by the last string to reverse string order when rendering.
-		stringIndex := len(noteList) - i
-
-		fretString := frets.NewFretString(noteList[stringIndex])
+		fretString := frets.NewFretString(noteList[i-1])
 		renderString = renderString + "\n" + RenderFretString(fretString, minFret, maxFret, fret, root)
 	}
 
+	renderString = renderString + "\n\t" + root.String() + " " + chordName
 	return renderString, nil
 }
 
@@ -96,9 +95,9 @@ func RenderFretString(fretString frets.FretString, from int, to int, fret string
 
 	renderString := fretString.Tuning().String()
 
-	if fret == "x" || fret == "X" {
+	if fret == "x" {
 		renderString = renderString + " x┼─"
-	} else if fret == "0" || fret == "O" {
+	} else if fret == "0" {
 		renderString = renderString + " 0┼─"
 	} else {
 		renderString = renderString + "  ┼─"
