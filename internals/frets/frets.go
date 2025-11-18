@@ -17,8 +17,8 @@ func (fretString FretString) FretToNote(fretNumber int) music.Note {
 	return music.FromInt(fretIndex)
 }
 
-func (fretString FretString) Tuning() string {
-	return fretString.openStringNote.String()
+func (fretString FretString) Tuning() music.Note {
+	return fretString.openStringNote
 }
 
 func NewFretString(openStringNote music.Note) FretString {

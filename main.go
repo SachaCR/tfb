@@ -10,36 +10,13 @@ import (
 
 func main() {
 
-	// fmt.Println(myString.FretToNote(0))
-	// fmt.Println(myString.FretToNote(5))
-	// fmt.Println(myString.FretToNote(12))
-	// fmt.Println(myString.FretToNote(13))
-	// fmt.Println(myString.FretToNote(14))
-	// fmt.Println(myString.FretToNote(1))
-
 	neck := neck.GuitarNeck()
 
-	fmt.Println(neck.Tuning())
-
-	fmt.Println("┬─⬤ ─┬────┬────┬")
-	fmt.Println("┼─⬤ ─┼────┼────┼")
-	fmt.Println("┼────┼─⬤ ─┼────┼")
-	fmt.Println("┼────┼────┼─⬤ ─┼")
-	fmt.Println("┼─⬤ ─┼─Ab─┼─⬤ ─┼")
-	fmt.Println("┴─⬤ ─┴────┴────┴")
-
-	stringToPrint := render.RenderFretString(frets.NewFretString(music.E), 2, 5, []int{4})
+	stringToPrint := render.RenderFretString(frets.NewFretString(music.E), 1, 5, "3", music.G)
+	fmt.Println("\n\n")
 	fmt.Println(stringToPrint)
+
+	fmt.Println(render.RenderChord(neck, "7-9-9-8-7-7", music.B))
+	fmt.Println(render.RenderChord(neck, "x-x-x-x-x-x", music.G))
+	fmt.Println(render.RenderChord(neck, "0-2-2-0-0-x", music.E))
 }
-
-// first: '|----',
-// normal: '|----',
-// last: '|----',
-
-// first: '┬────',
-// normal: '┼────',
-// last: '┴────',
-
-// render 7-9-9-8-7-7
-
-//┼────┼─⬤ ─┼─⬤ ◯───◉───⊕───🔴───⚪───⚫───⭕───🔵

@@ -14,14 +14,18 @@ func (neck *Neck) AddString(note music.Note) {
 	neck.strings = append(neck.strings, frets.NewFretString(note))
 }
 
-func (neck Neck) Tuning() string {
-	tuning := ""
+func (neck Neck) Tuning() []music.Note {
+	var tuning []music.Note
 
 	for _, fretString := range neck.strings {
-		tuning = tuning + fretString.Tuning()
+		tuning = append(tuning, fretString.Tuning())
 	}
 
 	return tuning
+}
+
+func (neck Neck) StringCount() int {
+	return len(neck.strings)
 }
 
 func GuitarNeck() Neck {
