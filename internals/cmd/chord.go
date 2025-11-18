@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/SachaCR/neck/internals/music"
 	"github.com/SachaCR/neck/internals/neck"
 	"github.com/SachaCR/neck/internals/render"
 	"github.com/spf13/cobra"
@@ -22,16 +21,11 @@ var chordCmd = &cobra.Command{
 	Long:  `Print chords that you pass in argument. Example: 0-2-2-0-0-0`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		rootNote, ok := music.ParseNote(root)
-
-		if !ok {
-			panic("Inalid root note")
-		}
 
 		chord := args[0]
 		neck := neck.GuitarNeck()
 
-		chordAsString, err := render.RenderChord(neck, chord, rootNote, "Minor")
+		chordAsString, err := render.RenderChord(neck, chord, root, name)
 
 		if err != nil {
 			panic(err.Error())

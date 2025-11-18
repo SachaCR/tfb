@@ -63,7 +63,14 @@ func calculateChordWidth(chord string) (int, int) {
 	return min, max
 }
 
-func RenderChord(neck neck.Neck, chord string, root music.Note, chordName string) (string, error) {
+func RenderChord(neck neck.Neck, chord string, root string, chordName string) (string, error) {
+
+	rootNote, _ := music.ParseNote(root)
+
+	// if !ok {
+	// 	rootNote = ""
+	// }
+
 	fretsToDraw := strings.Split(chord, "-")
 
 	if len(fretsToDraw) != neck.StringCount() {
@@ -80,10 +87,13 @@ func RenderChord(neck neck.Neck, chord string, root music.Note, chordName string
 	for i := len(fretsToDraw); i > 0; i-- {
 		fret := fretsToDraw[i-1]
 		fretString := frets.NewFretString(noteList[i-1])
-		renderString = renderString + "\n" + RenderFretString(fretString, minFret, maxFret, fret, root)
+		renderString = renderString + "\n" + RenderFretString(fretString, minFret, maxFret, fret, rootNote)
 	}
 
-	renderString = renderString + "\n\t" + root.String() + " " + chordName
+	if chordName != "" {
+		renderString = renderString + "\n\t" + rootNote.String() + " " + chordName
+	}
+
 	return renderString, nil
 }
 
