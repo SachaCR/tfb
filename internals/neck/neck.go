@@ -1,8 +1,8 @@
 package neck
 
 import (
-	"neck/internals/frets"
-	"neck/internals/music"
+	"github.com/SachaCR/neck/internals/frets"
+	"github.com/SachaCR/neck/internals/music"
 )
 
 type Neck struct {

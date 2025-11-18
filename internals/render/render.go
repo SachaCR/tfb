@@ -2,9 +2,9 @@ package render
 
 import (
 	"errors"
-	"neck/internals/frets"
-	"neck/internals/music"
-	"neck/internals/neck"
+	"github.com/SachaCR/neck/internals/frets"
+	"github.com/SachaCR/neck/internals/music"
+	"github.com/SachaCR/neck/internals/neck"
 	"strconv"
 	"strings"
 )
