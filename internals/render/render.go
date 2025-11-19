@@ -9,15 +9,6 @@ import (
 	"strings"
 )
 
-// Rendering example
-
-// fmt.Println("E x┬─⬤ ─┬────┬────┬")
-// fmt.Println("B  ┼─⬤ ─┼────┼────┼")
-// fmt.Println("G  ┼────┼─⬤ ─┼────┼")
-// fmt.Println("D  ┼────┼────┼─⬤ ─┼")
-// fmt.Println("A  ┼─⬤ ─┼─Ab─┼─⬤ ─┼")
-// fmt.Println("E 0┴─🔴─┴────┴────┴")
-
 func contains(slice []int, search int) bool {
 	found := false
 
@@ -30,6 +21,7 @@ func contains(slice []int, search int) bool {
 
 	return found
 }
+
 func calculateChordWidth(chord string) (int, int) {
 
 	frets := strings.Split(chord, "-")
@@ -65,12 +57,6 @@ func calculateChordWidth(chord string) (int, int) {
 
 func RenderChord(neck neck.Neck, chord string, root string, chordName string) (string, error) {
 
-	rootNote, _ := music.ParseNote(root)
-
-	// if !ok {
-	// 	rootNote = ""
-	// }
-
 	fretsToDraw := strings.Split(chord, "-")
 
 	if len(fretsToDraw) != neck.StringCount() {
@@ -79,36 +65,66 @@ func RenderChord(neck neck.Neck, chord string, root string, chordName string) (s
 
 	minFret, maxFret := calculateChordWidth(chord)
 
+	renderString := ""
+
 	noteList := neck.Tuning()
 
-	renderString := "     " + strconv.Itoa(minFret) + "th"
+	if minFret > 1 {
+		renderString = "     " + strconv.Itoa(minFret) + "th"
+	}
 
 	// We render backward to have the high E on top and the low E bottom
 	for i := len(fretsToDraw); i > 0; i-- {
 		fret := fretsToDraw[i-1]
 		fretString := frets.NewFretString(noteList[i-1])
-		renderString = renderString + "\n" + RenderFretString(fretString, minFret, maxFret, fret, rootNote)
+
+		stringPosition := "normal"
+
+		if i == len(fretsToDraw) {
+			stringPosition = "top"
+		}
+
+		if i == 0 {
+			stringPosition = "bottomString"
+		}
+
+		renderString = renderString + "\n" + RenderFretString(fretString, minFret, maxFret, fret, root, stringPosition)
 	}
 
 	if chordName != "" {
-		renderString = renderString + "\n\t" + rootNote.String() + " " + chordName
+		renderString = renderString + "\n\t" + root + " " + chordName
 	}
 
 	return renderString, nil
 }
 
-func RenderFretString(fretString frets.FretString, from int, to int, fret string, root music.Note) string {
+func RenderFretString(fretString frets.FretString, from int, to int, fret string, root string, stringPosition string) string {
+
+	fretSymbol := DefaultChordStyle.fretSymbol
+	topStringSymbol := DefaultChordStyle.topFretSymbol
+	bottomFretSymbol := DefaultChordStyle.bottomFretSymbol
+	stringSymbol := DefaultChordStyle.stringSymbol
+	mutedStringSymbol := DefaultChordStyle.mutedStringSymbol
+	openStringSymbol := DefaultChordStyle.openStringSymbol
+	rootSymbol := DefaultChordStyle.rootSymbol
 
 	if from >= to {
 		return ""
 	}
+
+	rootNote, ok := music.ParseNote(root)
 
 	renderString := fretString.Tuning().String()
 
 	if fret == "x" {
 		renderString = renderString + " x┼─"
 	} else if fret == "0" {
-		renderString = renderString + " 0┼─"
+		if fretString.Tuning() == rootNote {
+			// Display the 0 in red when it's the chord's root
+			renderString = renderString + " \033[31m0\033[0m┼─"
+		} else {
+			renderString = renderString + " 0┼─"
+		}
 	} else {
 		renderString = renderString + "  ┼─"
 	}
@@ -129,7 +145,7 @@ func RenderFretString(fretString frets.FretString, from int, to int, fret string
 		}
 
 		if fretAsInt == i {
-			if fretString.FretToNote(i) == root {
+			if fretString.FretToNote(i) == rootNote && ok {
 				fretSymbol = "🔴"
 			} else {
 				fretSymbol = "⬤ "

@@ -1,0 +1,33 @@
+package render
+
+// first: '┬────',
+// normal: '┼────',
+// last: '┴────',
+
+// fmt.Println("E x┬─⬤ ─┬────┬────┬")
+// fmt.Println("B  ┼─⬤ ─┼────┼────┼")
+// fmt.Println("G  ┼────┼─⬤ ─┼────┼")
+// fmt.Println("D  ┼────┼────┼─⬤ ─┼")
+// fmt.Println("A  ┼─⬤ ─┼─Ab─┼─⬤ ─┼")
+// fmt.Println("E 0┴─🔴─┴────┴────┴")
+
+type ChordStyle struct {
+	topFretSymbol     rune
+	fretSymbol        rune
+	bottomFretSymbol  rune
+	stringSymbol      rune
+	rootSymbol        rune
+	noteSymbol        string
+	openStringSymbol  rune
+	mutedStringSymbol rune
+}
+
+var DefaultChordStyle = ChordStyle{
+	topFretSymbol:     '┬',
+	fretSymbol:        '┼',
+	bottomFretSymbol:  '┴',
+	rootSymbol:        '🔴',
+	noteSymbol:        "⬤ ",
+	openStringSymbol:  '0',
+	mutedStringSymbol: 'x',
+}
