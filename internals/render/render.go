@@ -26,7 +26,7 @@ func calculateChordWidth(chord string) (int, int) {
 
 	frets := strings.Split(chord, "-")
 	min := 99 // TODO Fix this
-	max := 0
+	max := 3
 
 	for _, fret := range frets {
 
@@ -46,10 +46,6 @@ func calculateChordWidth(chord string) (int, int) {
 
 	if min == 99 || min == 0 {
 		min = 1
-	}
-
-	if max == 0 || max < 3 {
-		max = 3
 	}
 
 	return min, max
@@ -74,18 +70,18 @@ func RenderChord(neck neck.Neck, chord string, root string, chordName string) (s
 	}
 
 	// We render backward to have the high E on top and the low E bottom
-	for i := len(fretsToDraw); i > 0; i-- {
-		fret := fretsToDraw[i-1]
-		fretString := frets.NewFretString(noteList[i-1])
+	for i := len(fretsToDraw) - 1; i >= 0; i-- {
+		fret := fretsToDraw[i]
+		fretString := frets.NewFretString(noteList[i])
 
-		stringPosition := "normal"
+		stringPosition := Middle
 
-		if i == len(fretsToDraw) {
-			stringPosition = "top"
+		if i == len(fretsToDraw)-1 {
+			stringPosition = Top
 		}
 
 		if i == 0 {
-			stringPosition = "bottomString"
+			stringPosition = Bottom
 		}
 
 		renderString = renderString + "\n" + RenderFretString(fretString, minFret, maxFret, fret, root, stringPosition)
@@ -98,62 +94,125 @@ func RenderChord(neck neck.Neck, chord string, root string, chordName string) (s
 	return renderString, nil
 }
 
-func RenderFretString(fretString frets.FretString, from int, to int, fret string, root string, stringPosition string) string {
+func initMutedString(stringPosition StringPosition, style ChordStyle) string {
+	fretSymbol := string(style.fretSymbol)
 
-	fretSymbol := DefaultChordStyle.fretSymbol
-	topStringSymbol := DefaultChordStyle.topFretSymbol
-	bottomFretSymbol := DefaultChordStyle.bottomFretSymbol
-	stringSymbol := DefaultChordStyle.stringSymbol
-	mutedStringSymbol := DefaultChordStyle.mutedStringSymbol
-	openStringSymbol := DefaultChordStyle.openStringSymbol
-	rootSymbol := DefaultChordStyle.rootSymbol
+	if stringPosition == Top {
+		fretSymbol = string(style.topFretSymbol)
+	}
+
+	if stringPosition == Bottom {
+		fretSymbol = string(style.bottomFretSymbol)
+	}
+
+	return " " + string(style.mutedStringSymbol) + fretSymbol + style.stringSymbol
+}
+
+func initOpenString(stringPosition StringPosition, style ChordStyle, isRoot bool) string {
+	fretSymbol := string(style.fretSymbol)
+
+	if stringPosition == Top {
+		fretSymbol = style.topFretSymbol
+	}
+
+	if stringPosition == Bottom {
+		fretSymbol = style.bottomFretSymbol
+	}
+
+	if isRoot {
+		// Display the 0 in red when it's the chord's root
+		return " " + "\033[31m" + style.openStringSymbol + "\033[0m" + fretSymbol + style.stringSymbol
+	} else {
+		return " " + style.openStringSymbol + fretSymbol + style.stringSymbol
+	}
+
+}
+
+func initString(stringPosition StringPosition, style ChordStyle) string {
+	fretSymbol := string(style.fretSymbol)
+
+	if stringPosition == Top {
+		fretSymbol = style.topFretSymbol
+	}
+
+	if stringPosition == Bottom {
+		fretSymbol = style.bottomFretSymbol
+	}
+	return "  " + fretSymbol + style.stringSymbol
+}
+
+func renderEmptyFret(stringPosition StringPosition, style ChordStyle) string {
+	fretSymbol := style.fretSymbol
+
+	if stringPosition == Top {
+		fretSymbol = string(style.topFretSymbol)
+	}
+
+	if stringPosition == Bottom {
+		fretSymbol = string(style.bottomFretSymbol)
+	}
+
+	return style.stringSymbol + style.stringSymbol + style.stringSymbol + fretSymbol + style.stringSymbol
+}
+
+func renderNoteSymbol(stringPosition StringPosition, currentNote music.Note, rootNote music.Note, renderRoot bool, style ChordStyle) string {
+	fretSymbol := style.fretSymbol
+
+	if stringPosition == Top {
+		fretSymbol = string(style.topFretSymbol)
+	}
+
+	if stringPosition == Bottom {
+		fretSymbol = string(style.bottomFretSymbol)
+	}
+	noteSymbol := "⬤ "
+
+	if currentNote == rootNote && renderRoot {
+		noteSymbol = "🔴"
+	}
+
+	return noteSymbol + style.stringSymbol + fretSymbol + style.stringSymbol
+
+}
+func RenderFretString(fretString frets.FretString, from int, to int, fret string, root string, stringPosition StringPosition) string {
 
 	if from >= to {
 		return ""
 	}
 
-	rootNote, ok := music.ParseNote(root)
+	rootNote, isRootNoteValid := music.ParseNote(root)
+	isStringRoot := fretString.Tuning().String() == rootNote.String()
 
 	renderString := fretString.Tuning().String()
 
 	if fret == "x" {
-		renderString = renderString + " x┼─"
+		renderString = renderString + initMutedString(stringPosition, DefaultChordStyle)
 	} else if fret == "0" {
-		if fretString.Tuning() == rootNote {
-			// Display the 0 in red when it's the chord's root
-			renderString = renderString + " \033[31m0\033[0m┼─"
-		} else {
-			renderString = renderString + " 0┼─"
-		}
+		renderString = renderString + initOpenString(stringPosition, DefaultChordStyle, isStringRoot)
 	} else {
-		renderString = renderString + "  ┼─"
+		renderString = renderString + initString(stringPosition, DefaultChordStyle)
 	}
 
 	for i := from; i <= to; i++ {
-		fretSymbol := "──"
 
 		if fret == "x" || fret == "0" {
-			renderString = renderString + fretSymbol + "─┼─"
+			renderString = renderString + renderEmptyFret(stringPosition, DefaultChordStyle)
 			continue
 		}
 
 		fretAsInt, err := strconv.Atoi(fret)
 
 		if err != nil {
-			renderString = renderString + fretSymbol + "─┼─"
+			renderString = renderString + renderEmptyFret(stringPosition, DefaultChordStyle)
 			continue
 		}
 
 		if fretAsInt == i {
-			if fretString.FretToNote(i) == rootNote && ok {
-				fretSymbol = "🔴"
-			} else {
-				fretSymbol = "⬤ "
-			}
+			renderString = renderString + renderNoteSymbol(stringPosition, fretString.FretToNote(i), rootNote, isRootNoteValid, DefaultChordStyle)
+			continue
 		}
 
-		renderString = renderString + fretSymbol + "─┼─"
-
+		renderString = renderString + renderEmptyFret(stringPosition, DefaultChordStyle)
 	}
 
 	return renderString
