@@ -63,10 +63,14 @@ var scaleCmd = &cobra.Command{
 			fmt.Println("Scale:", rootNote.String(), scaleName)
 		}
 
-		if from > 1 {
+		if from < 1 {
+			from = 1
+		}
 
+		if from > 1 {
 			fmt.Println("    ", from, "ft")
 		}
+
 		scaleAsString := render.RenderScale(neck, scale, scale.Root(), from, to)
 
 		fmt.Print(scaleAsString)
