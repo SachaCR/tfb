@@ -60,7 +60,8 @@ E  ╟─⬤─┼────┼─⬤─┼────┼─⬤─┼──�
                .         .         .         .              ..
 ```
 
-Print scale that you pass in argument. Example: C-D-E-F-G-A-B
+Print scale that you pass in argument. Example: `C-D-E-F-G-A-B`
+
 By default it takes the first note of the scale as root note.
 
 Usage:
@@ -76,7 +77,7 @@ Flags:
 
 - `-f`, `--from` int      Render from that fret number (default 1)
 
-- `-t`, `--to` int        Render from that fret number (default 1) 
+- `-t`, `--to` int        Last fret number to render (default 12)
 
 # TODO
 
