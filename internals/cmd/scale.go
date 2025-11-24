@@ -11,10 +11,14 @@ import (
 
 var scaleRoot string
 var scaleName string
+var from int
+var to int
 
 func init() {
 	scaleCmd.PersistentFlags().StringVarP(&scaleName, "name", "n", "", "Set the scale name. Example: C Major")
-	scaleCmd.PersistentFlags().StringVarP(&scaleRoot, "root", "r", "", "Set the root note of your scale")
+	scaleCmd.PersistentFlags().StringVarP(&scaleRoot, "root", "r", "", "Set the root note of your scale. By default it takes the first note of the scale.")
+	scaleCmd.PersistentFlags().IntVarP(&from, "from", "f", 1, "Render from that fret number")
+	scaleCmd.PersistentFlags().IntVarP(&to, "to", "t", 12, "Last fret number to render")
 }
 
 var scaleCmd = &cobra.Command{
@@ -54,11 +58,16 @@ var scaleCmd = &cobra.Command{
 		scale = music.NewScale(noteSlice, rootNote)
 
 		neck := neck.GuitarNeck()
-		if scaleName != "" {
 
+		if scaleName != "" {
 			fmt.Println("Scale:", rootNote.String(), scaleName)
 		}
-		scaleAsString := render.RenderScale(neck, scale, scale.Root(), 1, 12)
+
+		if from > 1 {
+
+			fmt.Println("    ", from, "ft")
+		}
+		scaleAsString := render.RenderScale(neck, scale, scale.Root(), from, to)
 
 		fmt.Print(scaleAsString)
 		fmt.Println("               .         .         .         .              ..")

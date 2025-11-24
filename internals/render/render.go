@@ -9,19 +9,6 @@ import (
 	"strings"
 )
 
-func contains(slice []int, search int) bool {
-	found := false
-
-	for _, n := range slice {
-		if n == search {
-			found = true
-			break
-		}
-	}
-
-	return found
-}
-
 func calculateChordWidth(chord string) (int, int) {
 
 	frets := strings.Split(chord, "-")
@@ -66,7 +53,7 @@ func RenderChord(neck neck.Neck, chord string, root string, chordName string) (s
 	noteList := neck.Tuning()
 
 	if minFret > 1 {
-		renderString = "     " + strconv.Itoa(minFret) + "th"
+		renderString = "     " + strconv.Itoa(minFret) + "ft"
 	}
 
 	// We render backward to have the high E on top and the low E bottom

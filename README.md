@@ -68,11 +68,15 @@ Usage:
 
 Flags:
 
-  `-h`, `--help`          help for scale
+- `-h`, `--help`          help for scale
 
-  `-n`, `--name` string   Set the scale name. Example: Major
+- `-n`, `--name` string   Set the scale name. Example: Major
 
-  `-r`, `--root` string   Set the root note of your scale. Take the first note by default.
+- `-r`, `--root` string   Set the root note of your scale. Take the first note by default.
+
+- `-f`, `--from` int      Render from that fret number (default 1)
+
+- `-t`, `--to` int        Render from that fret number (default 1) 
 
 # TODO
 
