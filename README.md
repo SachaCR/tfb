@@ -26,9 +26,12 @@ Usage:
   neck chord [flags]
 
 Flags:
-  -h, --help          help for chord
-  -n, --name string   Give a chord name like Major7 or m7b5
-  -r, --root string   Set the root of your chord
+
+  `-h`, `--help`          help for chord
+
+  `-n`, `--name` string   Give a chord name like Major7 or m7b5
+
+  `-r`, `--root` string   Set the root of your chord
 
 
 # Scales 
@@ -53,8 +56,10 @@ Usage:
   neck scale [flags]
 
 Flags:
-  -h, --help          help for scale
-  -n, --name string   Set the scale name. Example: C Major
-  -r, --root string   Set the root note of your scale
 
+  `-h`, `--help`          help for scale
+
+  `-n`, `--name` string   Set the scale name. Example: C Major
+
+  `-r`, `--root` string   Set the root note of your scale
 
