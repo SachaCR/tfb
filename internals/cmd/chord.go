@@ -7,12 +7,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var name string
-var root string
+var chordRoot string
+var chordName string
 
 func init() {
-	chordCmd.PersistentFlags().StringVarP(&name, "name", "n", "", "Give a chord name like Major7 or m7b5")
-	chordCmd.PersistentFlags().StringVarP(&root, "root", "r", "", "Set the root of your chord")
+	chordCmd.PersistentFlags().StringVarP(&chordName, "name", "n", "", "Give a chord name like Major7 or m7b5")
+	chordCmd.PersistentFlags().StringVarP(&chordRoot, "root", "r", "", "Set the root of your chord")
 }
 
 var chordCmd = &cobra.Command{
@@ -25,7 +25,7 @@ var chordCmd = &cobra.Command{
 		chord := args[0]
 		neck := neck.GuitarNeck()
 
-		chordAsString, err := render.RenderChord(neck, chord, root, name)
+		chordAsString, err := render.RenderChord(neck, chord, chordRoot, chordName)
 
 		if err != nil {
 			panic(err.Error())

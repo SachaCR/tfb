@@ -17,6 +17,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(chordCmd)
+	rootCmd.AddCommand(scaleCmd)
 }
 
 func Execute() {

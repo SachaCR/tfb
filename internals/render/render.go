@@ -94,30 +94,35 @@ func RenderChord(neck neck.Neck, chord string, root string, chordName string) (s
 	return renderString, nil
 }
 
-func initMutedString(stringPosition StringPosition, style ChordStyle) string {
-	fretSymbol := string(style.fretSymbol)
-
-	if stringPosition == Top {
-		fretSymbol = string(style.topFretSymbol)
+func determineFretSymbol(stringPosition StringPosition, isNut bool, style ChordStyle) string {
+	if isNut {
+		switch stringPosition {
+		case Top:
+			return style.topFirstFretSymbol
+		case Bottom:
+			return style.bottomFirstFretSymbol
+		default:
+			return style.middleFirstFretSymbol
+		}
 	}
 
-	if stringPosition == Bottom {
-		fretSymbol = string(style.bottomFretSymbol)
+	switch stringPosition {
+	case Top:
+		return style.topFretSymbol
+	case Bottom:
+		return style.bottomFretSymbol
+	default:
+		return style.fretSymbol
 	}
+}
 
+func initMutedString(stringPosition StringPosition, isNut bool, style ChordStyle) string {
+	fretSymbol := determineFretSymbol(stringPosition, isNut, DefaultChordStyle)
 	return " " + string(style.mutedStringSymbol) + fretSymbol + style.stringSymbol
 }
 
-func initOpenString(stringPosition StringPosition, style ChordStyle, isRoot bool) string {
-	fretSymbol := string(style.fretSymbol)
-
-	if stringPosition == Top {
-		fretSymbol = style.topFretSymbol
-	}
-
-	if stringPosition == Bottom {
-		fretSymbol = style.bottomFretSymbol
-	}
+func initOpenString(stringPosition StringPosition, isNut bool, style ChordStyle, isRoot bool) string {
+	fretSymbol := determineFretSymbol(stringPosition, isNut, DefaultChordStyle)
 
 	if isRoot {
 		// Display the 0 in red when it's the chord's root
@@ -125,46 +130,21 @@ func initOpenString(stringPosition StringPosition, style ChordStyle, isRoot bool
 	} else {
 		return " " + style.openStringSymbol + fretSymbol + style.stringSymbol
 	}
-
 }
 
-func initString(stringPosition StringPosition, style ChordStyle) string {
-	fretSymbol := string(style.fretSymbol)
-
-	if stringPosition == Top {
-		fretSymbol = style.topFretSymbol
-	}
-
-	if stringPosition == Bottom {
-		fretSymbol = style.bottomFretSymbol
-	}
+func initString(stringPosition StringPosition, isNut bool, style ChordStyle) string {
+	fretSymbol := determineFretSymbol(stringPosition, isNut, DefaultChordStyle)
 	return "  " + fretSymbol + style.stringSymbol
 }
 
 func renderEmptyFret(stringPosition StringPosition, style ChordStyle) string {
-	fretSymbol := style.fretSymbol
-
-	if stringPosition == Top {
-		fretSymbol = string(style.topFretSymbol)
-	}
-
-	if stringPosition == Bottom {
-		fretSymbol = string(style.bottomFretSymbol)
-	}
-
+	fretSymbol := determineFretSymbol(stringPosition, false, DefaultChordStyle)
 	return style.stringSymbol + style.stringSymbol + style.stringSymbol + fretSymbol + style.stringSymbol
 }
 
 func renderNoteSymbol(stringPosition StringPosition, currentNote music.Note, rootNote music.Note, renderRoot bool, style ChordStyle) string {
-	fretSymbol := style.fretSymbol
+	fretSymbol := determineFretSymbol(stringPosition, false, DefaultChordStyle)
 
-	if stringPosition == Top {
-		fretSymbol = string(style.topFretSymbol)
-	}
-
-	if stringPosition == Bottom {
-		fretSymbol = string(style.bottomFretSymbol)
-	}
 	noteSymbol := "⬤ "
 
 	if currentNote == rootNote && renderRoot {
@@ -172,8 +152,8 @@ func renderNoteSymbol(stringPosition StringPosition, currentNote music.Note, roo
 	}
 
 	return noteSymbol + style.stringSymbol + fretSymbol + style.stringSymbol
-
 }
+
 func RenderFretString(fretString frets.FretString, from int, to int, fret string, root string, stringPosition StringPosition) string {
 
 	if from >= to {
@@ -185,12 +165,14 @@ func RenderFretString(fretString frets.FretString, from int, to int, fret string
 
 	renderString := fretString.Tuning().String()
 
+	isNut := from == 1
+
 	if fret == "x" {
-		renderString = renderString + initMutedString(stringPosition, DefaultChordStyle)
+		renderString = renderString + initMutedString(stringPosition, isNut, DefaultChordStyle)
 	} else if fret == "0" {
-		renderString = renderString + initOpenString(stringPosition, DefaultChordStyle, isStringRoot)
+		renderString = renderString + initOpenString(stringPosition, isNut, DefaultChordStyle, isStringRoot)
 	} else {
-		renderString = renderString + initString(stringPosition, DefaultChordStyle)
+		renderString = renderString + initString(stringPosition, isNut, DefaultChordStyle)
 	}
 
 	for i := from; i <= to; i++ {
