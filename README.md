@@ -20,7 +20,18 @@ A  ╟────┼─⬤─┼────┼─
 E 0╙────┴────┴────┴─
 ```
 
-Print chords that you pass in argument. Example: 0-2-2-0-0-0
+Print chords that you pass in argument. Example: `0-2-2-0-0-0`
+
+Use `x` to mute strings. Example `x-x-0-2-3-2`
+
+```bash
+E  ╓────┬─⬤─┬────┬─
+B  ╟────┼────┼─🔴─┼─
+G  ╟────┼─⬤─┼────┼─
+D 0╟────┼────┼────┼─
+A x╟────┼────┼────┼─
+E x╙────┴────┴────┴─
+```
 
 Usage:
   neck chord [flags]
@@ -31,8 +42,7 @@ Flags:
 
   `-n`, `--name` string   Give a chord name like Major7 or m7b5
 
-  `-r`, `--root` string   Set the root of your chord
-
+  `-r`, `--root` string   Set the root of your chord. Example: C, D#, Bb...
 
 # Scales 
 
@@ -51,6 +61,7 @@ E  ╟─⬤─┼────┼─⬤─┼────┼─⬤─┼──�
 ```
 
 Print scale that you pass in argument. Example: C-D-E-F-G-A-B
+By default it takes the first note of the scale as root note.
 
 Usage:
   neck scale [flags]
@@ -59,7 +70,15 @@ Flags:
 
   `-h`, `--help`          help for scale
 
-  `-n`, `--name` string   Set the scale name. Example: C Major
+  `-n`, `--name` string   Set the scale name. Example: Major
 
-  `-r`, `--root` string   Set the root note of your scale
+  `-r`, `--root` string   Set the root note of your scale. Take the first note by default.
+
+# TODO
+
+- `s`, `--style` options to choose the renderng style: utf8, ascii, etc...
+- An options to display note names instead of circles. Maybe `--mode`, `m` 
+- Include root and name in the chord string
+- Add tests and verify everything works with `#` and `b` note with  
+
 
