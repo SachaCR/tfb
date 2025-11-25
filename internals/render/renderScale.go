@@ -5,7 +5,7 @@ import (
 	"github.com/SachaCR/neck/internals/neck"
 )
 
-func RenderScale(neck neck.Neck, scale music.Scale, root music.Note, from int, to int) string {
+func RenderScale(neck neck.Neck, scale music.Scale, root music.Note, from int, to int, mode string) string {
 	if from >= to {
 		return ""
 	}
@@ -17,22 +17,35 @@ func RenderScale(neck neck.Neck, scale music.Scale, root music.Note, from int, t
 	// Rendering backwards to have high E string on top
 	for i := len(strings) - 1; i >= 0; i-- {
 		fretString := strings[i]
-
 		renderString = renderString + fretString.Tuning().String()
 
 		isNut := from == 1
 
-		renderString = renderString + initString(Middle, isNut, DefaultChordStyle)
+		stringPosition := Middle
+
+		if i == len(strings)-1 {
+			stringPosition = Top
+		}
+
+		if i == 0 {
+			stringPosition = Bottom
+		}
+
+		renderString = renderString + initString(stringPosition, isNut, DefaultChordStyle)
 
 		for i := from; i <= to; i++ {
 
 			if scale.Contains(fretString.FretToNote(i)) {
-				renderString = renderString + renderNoteSymbol(Middle, fretString.FretToNote(i), scale.Root(), true, DefaultChordStyle)
+				if mode == "note" {
+					renderString = renderString + renderNoteSymbol(stringPosition, fretString.FretToNote(i), scale.Root(), DefaultChordStyle)
+					continue
+				}
+
+				renderString = renderString + renderCircleSymbol(stringPosition, fretString.FretToNote(i), scale.Root(), true, DefaultChordStyle)
 				continue
 			}
 
-			renderString = renderString + renderEmptyFret(Middle, DefaultChordStyle)
-
+			renderString = renderString + renderEmptyFret(stringPosition, DefaultChordStyle)
 		}
 
 		renderString = renderString + "\n"
