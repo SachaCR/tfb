@@ -1,13 +1,13 @@
-# Neck
+# Terminal Fret Board
 
-Neck is CLI that display Guitar chords and scales diagrams. It is built to allow supporting any kind of instrument that has string with frets.
+Terminal Fret Board: A CLI tool that display guitar chords and scales in the terminal It is built to allow supporting any kind of instrument that has string with frets.
 
 It's a tool for the true nerds. Those who never quit their terminal. Now they will be able to stay in the terminal even when practicing guitar.
 
 # Chords
 
 ```bash
-$ neck chord 0-2-2-0-0-0 
+$ tfb chord 0-2-2-0-0-0 
 ```
 Will display:
 
@@ -34,7 +34,7 @@ E x╙────┴────┴────┴─
 ```
 
 Usage:
-  neck chord [flags]
+  tfb chord [flags]
 
 Flags:
 
@@ -47,7 +47,7 @@ Flags:
 # Scales 
 
 ```bash
-$ ./neck scale C-D-E-F-G-A-B
+$ ./tfb scale C-D-E-F-G-A-B
 ```
 Will display:
 ```bash
