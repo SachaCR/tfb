@@ -1,7 +1,7 @@
 package frets
 
 import (
-	"github.com/SachaCR/neck/internals/music"
+	"github.com/SachaCR/tfb/internals/music"
 )
 
 type FretString struct {

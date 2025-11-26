@@ -7,9 +7,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "neck",
-	Short: "Neck is a tools for guitarists that display neck diagrams",
-	Long:  `Neck allows to display guitar neck diagrams. It also support bass and ukulele and potentially any instruments with strings and frets.`,
+	Use:   "tfb",
+	Short: "tfb is a tools for guitarists that display neck diagrams",
+	Long:  `tfb allows to display guitar neck diagrams. It also support bass and ukulele and potentially any instruments with strings and frets.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		println("neck")
 	},

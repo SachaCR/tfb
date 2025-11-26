@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/SachaCR/neck/internals/music"
-	"github.com/SachaCR/neck/internals/neck"
-	"github.com/SachaCR/neck/internals/render"
+	"github.com/SachaCR/tfb/internals/music"
+	"github.com/SachaCR/tfb/internals/neck"
+	"github.com/SachaCR/tfb/internals/render"
 	"github.com/spf13/cobra"
 	"strings"
 )
@@ -57,12 +57,12 @@ var scaleCmd = &cobra.Command{
 			rootNote = note
 		}
 
-		scale = music.NewScale(noteSlice, rootNote)
+		scale = music.NewScale(noteSlice, rootNote, scaleName)
 
 		neck := neck.GuitarNeck()
 
 		if scaleName != "" {
-			fmt.Println("Scale:", rootNote.String(), scaleName)
+			fmt.Println("Scale:", scale.Root().String(), scaleName)
 		}
 
 		if from < 1 {

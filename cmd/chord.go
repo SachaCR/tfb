@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/SachaCR/neck/internals/neck"
-	"github.com/SachaCR/neck/internals/render"
+	"github.com/SachaCR/tfb/internals/neck"
+	"github.com/SachaCR/tfb/internals/render"
 	"github.com/spf13/cobra"
 )
 

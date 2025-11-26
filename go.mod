@@ -1,4 +1,4 @@
-module github.com/SachaCR/neck
+module github.com/SachaCR/tfb
 
 go 1.25.4
 

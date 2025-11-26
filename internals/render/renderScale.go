@@ -1,8 +1,8 @@
 package render
 
 import (
-	"github.com/SachaCR/neck/internals/music"
-	"github.com/SachaCR/neck/internals/neck"
+	"github.com/SachaCR/tfb/internals/music"
+	"github.com/SachaCR/tfb/internals/neck"
 )
 
 func RenderScale(neck neck.Neck, scale music.Scale, root music.Note, from int, to int, mode string) string {

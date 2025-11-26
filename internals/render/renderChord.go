@@ -2,7 +2,7 @@ package render
 
 import (
 	"errors"
-	"github.com/SachaCR/neck/internals/neck"
+	"github.com/SachaCR/tfb/internals/neck"
 	"strconv"
 	"strings"
 )

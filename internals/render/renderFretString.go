@@ -1,8 +1,8 @@
 package render
 
 import (
-	"github.com/SachaCR/neck/internals/frets"
-	"github.com/SachaCR/neck/internals/music"
+	"github.com/SachaCR/tfb/internals/frets"
+	"github.com/SachaCR/tfb/internals/music"
 	"strconv"
 	"strings"
 )
@@ -66,7 +66,7 @@ func calculateChordWidth(chord string) (int, int) {
 			continue
 		}
 
-		if value < min && value >= 0 {
+		if value < min && value > 0 {
 			min = value
 		}
 
@@ -75,7 +75,7 @@ func calculateChordWidth(chord string) (int, int) {
 		}
 	}
 
-	if min == 99 || min == 0 {
+	if min == 99 || min == 0 || min < 3 {
 		min = 1
 	}
 
