@@ -82,7 +82,7 @@ Flags:
 # TODO
 
 - `s`, `--style` options to choose the renderng style: utf8, ascii, etc...
-- An options to display note names instead of circles. Maybe `--mode`, `m` 
+- [x] An options to display note names instead of circles. Maybe `--mode`, `m` 
 - Include root and name in the chord string
 - Add tests and verify everything works with `#` and `b` note with  
 - Add a `quiz` subcommand that randomly display a fret on the screen and wait for you to type the note's name.
