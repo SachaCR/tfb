@@ -62,7 +62,7 @@ E  ╙─⬤─┴────┴─⬤─┴────┴─⬤─┴──�
 
 Print scale that you pass in argument. Example: `C-D-E-F-G-A-B`
 
-By default it takes the first note of the scale as root note.
+Takes the first note of the scale as root note.
 
 Usage:
   neck scale [flags]
@@ -72,8 +72,6 @@ Flags:
 - `-h`, `--help`          help for scale
 
 - `-n`, `--name` string   Set the scale name. Example: Major
-
-- `-r`, `--root` string   Set the root note of your scale. Take the first note by default.
 
 - `-f`, `--from` int      Render from that fret number (default 1)
 
@@ -88,4 +86,7 @@ Flags:
 - Include root and name in the chord string
 - Add tests and verify everything works with `#` and `b` note with  
 - Add a `quiz` subcommand that randomly display a fret on the screen and wait for you to type the note's name.
+- Make the base command `tfb` displaying the fretboard with all the notes.
+ - `-i`, `--instrument` option to choose between Guitar, Bass, Ukulele
+ - `-t`, `--tuning` option to choose the tuning
 

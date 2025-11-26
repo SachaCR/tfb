@@ -1,9 +1,14 @@
 package music
 
+import (
+	"strings"
+)
+
 type Scale struct {
-	notes []Note
-	root  Note   // Default to first note if missing
-	name  string // Optional
+	notes       []Note
+	root        Note   // Default to first note if missing
+	name        string // Optional
+	alterations []string
 }
 
 func (scale Scale) Contains(note Note) bool {
@@ -18,16 +23,56 @@ func (scale Scale) Contains(note Note) bool {
 	return noteFound
 }
 
+func (scale Scale) ResolveEnharmonic(note Note) string {
+	possibleNote := strings.Split(note.String(), "/")
+
+	for _, alteration := range scale.alterations {
+		if alteration == possibleNote[0] || alteration == possibleNote[1] {
+			return alteration
+		}
+	}
+
+	return note.String()
+}
+
 func (scale Scale) Root() Note {
 	return scale.root
 }
 
-func NewScale(notes []Note, root Note, name string) Scale {
+func NewScale(notes []Note, root Note, name string, alterations []string) Scale {
 	return Scale{
-		notes: notes,
-		root:  root,
-		name:  name,
+		notes:       notes,
+		root:        root,
+		name:        name,
+		alterations: alterations,
 	}
+}
+
+func ParseScale(scaleString string, scaleName string) Scale {
+	stringSlice := strings.Split(scaleString, "-")
+	var noteSlice []Note
+	var alterations []string
+
+	for _, string := range stringSlice {
+		note, ok := NoteFromString[string]
+
+		if !ok {
+			panic("invalid note")
+		}
+
+		if strings.Contains(note.String(), "/") {
+			alterations = append(alterations, string)
+		}
+
+		noteSlice = append(noteSlice, note)
+	}
+
+	var scale Scale
+	rootNote := noteSlice[0]
+
+	scale = NewScale(noteSlice, rootNote, scaleName, alterations)
+
+	return scale
 }
 
 //

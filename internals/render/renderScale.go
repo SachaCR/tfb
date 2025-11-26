@@ -5,7 +5,7 @@ import (
 	"github.com/SachaCR/tfb/internals/neck"
 )
 
-func RenderScale(neck neck.Neck, scale music.Scale, root music.Note, from int, to int, mode string) string {
+func RenderScale(neck neck.Neck, scale music.Scale, from int, to int, mode string) string {
 	if from >= to {
 		return ""
 	}
@@ -34,14 +34,17 @@ func RenderScale(neck neck.Neck, scale music.Scale, root music.Note, from int, t
 		renderString = renderString + initString(stringPosition, isNut, DefaultChordStyle)
 
 		for i := from; i <= to; i++ {
+			currentFretNote := fretString.FretToNote(i)
 
-			if scale.Contains(fretString.FretToNote(i)) {
+			if scale.Contains(currentFretNote) {
+
 				if mode == "note" {
-					renderString = renderString + renderNoteSymbol(stringPosition, fretString.FretToNote(i), scale.Root(), DefaultChordStyle)
+
+					renderString = renderString + renderNoteSymbol(stringPosition, currentFretNote, scale, DefaultChordStyle)
 					continue
 				}
 
-				renderString = renderString + renderCircleSymbol(stringPosition, fretString.FretToNote(i), scale.Root(), true, DefaultChordStyle)
+				renderString = renderString + renderCircleSymbol(stringPosition, currentFretNote, scale.Root(), true, DefaultChordStyle)
 				continue
 			}
 
