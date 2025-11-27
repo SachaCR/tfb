@@ -1,6 +1,7 @@
 package music
 
 import (
+	"errors"
 	"strings"
 )
 
@@ -39,16 +40,21 @@ func (scale Scale) Root() Note {
 	return scale.root
 }
 
-func NewScale(notes []Note, root Note, name string, alterations []string) Scale {
-	return Scale{
+func NewScale(notes []Note, root Note, name string, alterations []string) (*Scale, error) {
+
+	if len(notes) == 0 {
+		return nil, errors.New("Notes list cannot be empty")
+	}
+
+	return &Scale{
 		notes:       notes,
 		root:        root,
 		name:        name,
 		alterations: alterations,
-	}
+	}, nil
 }
 
-func ParseScale(scaleString string, scaleName string) Scale {
+func ParseScale(scaleString string, scaleName string) (*Scale, error) {
 	stringSlice := strings.Split(scaleString, "-")
 	var noteSlice []Note
 	var alterations []string
@@ -57,7 +63,7 @@ func ParseScale(scaleString string, scaleName string) Scale {
 		note, ok := NoteFromString[string]
 
 		if !ok {
-			panic("invalid note")
+			return nil, errors.New("Invalid Note")
 		}
 
 		if strings.Contains(note.String(), "/") {
@@ -67,12 +73,15 @@ func ParseScale(scaleString string, scaleName string) Scale {
 		noteSlice = append(noteSlice, note)
 	}
 
-	var scale Scale
 	rootNote := noteSlice[0]
 
-	scale = NewScale(noteSlice, rootNote, scaleName, alterations)
+	scale, err := NewScale(noteSlice, rootNote, scaleName, alterations)
 
-	return scale
+	if err != nil {
+		return nil, err
+	}
+
+	return scale, nil
 }
 
 //

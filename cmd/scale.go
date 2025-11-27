@@ -29,7 +29,12 @@ var scaleCmd = &cobra.Command{
 
 		scaleInput := args[0]
 
-		scale := music.ParseScale(scaleInput, scaleName)
+		scale, err := music.ParseScale(scaleInput, scaleName)
+
+		if err != nil {
+			panic("Invalid Scale Input")
+		}
+
 		neck := neck.GuitarNeck()
 
 		if scaleName != "" {

@@ -11,7 +11,7 @@ var rootCmd = &cobra.Command{
 	Short: "tfb is a tools for guitarists that display neck diagrams",
 	Long:  `tfb allows to display guitar neck diagrams. It also support bass and ukulele and potentially any instruments with strings and frets.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		println("neck")
+		println("tfb")
 	},
 }
 

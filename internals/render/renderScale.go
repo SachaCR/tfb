@@ -5,7 +5,7 @@ import (
 	"github.com/SachaCR/tfb/internals/neck"
 )
 
-func RenderScale(neck neck.Neck, scale music.Scale, from int, to int, mode string) string {
+func RenderScale(neck neck.Neck, scale *music.Scale, from int, to int, mode string) string {
 	if from >= to {
 		return ""
 	}
@@ -39,7 +39,6 @@ func RenderScale(neck neck.Neck, scale music.Scale, from int, to int, mode strin
 			if scale.Contains(currentFretNote) {
 
 				if mode == "note" {
-
 					renderString = renderString + renderNoteSymbol(stringPosition, currentFretNote, scale, DefaultChordStyle)
 					continue
 				}

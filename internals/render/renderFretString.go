@@ -138,7 +138,7 @@ func renderEmptyFret(stringPosition StringPosition, style ChordStyle) string {
 	return style.stringSymbol + style.stringSymbol + style.stringSymbol + fretSymbol + style.stringSymbol
 }
 
-func renderNoteSymbol(stringPosition StringPosition, currentNote music.Note, scale music.Scale, style ChordStyle) string {
+func renderNoteSymbol(stringPosition StringPosition, currentNote music.Note, scale *music.Scale, style ChordStyle) string {
 	fretSymbol := determineFretSymbol(stringPosition, false, style)
 	noteSymbol := currentNote.String()
 
