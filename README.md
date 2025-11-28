@@ -84,12 +84,13 @@ Flags:
 
 # TODO
 
+- [ ] Rename fretString into neckString and move it under the neck package
+- [ ] Add a pkg directory at the root of the repository. Verify what is internal or not.
 - [ ] `s`, `--style` options to choose the renderng style: utf8, ascii, etc...
 - [x] An options to display note names instead of circles. Maybe `--mode`, `m` 
-- [ ] Include root and name in the chord string
 - [x] Verify everything works with `#` and `b` note with  
 - [ ] Add a `quiz` subcommand that randomly display a fret on the screen and wait for you to type the note's name.
-- [ ] Make the base command `tfb` displaying the fretboard with all the notes.
+- [x] Make the base command `tfb` displaying the fretboard with all the notes.
 - [x] `-i`, `--instrument` option to choose between Guitar, Bass, Ukulele
 - [ ] `-t`, `--tuning` option to choose the tuning
 - [ ] Add tests
