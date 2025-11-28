@@ -49,6 +49,7 @@ Flags:
 ```bash
 $ ./tfb scale C-D-E-F-G-A-B
 ```
+
 Will display:
 ```bash
 E  ╓─⬤─┬────┬─⬤─┬────┬─⬤─┬────┬─⬤─┬─🔴─┬────┬─⬤─┬────┬─⬤─┬─
@@ -65,7 +66,7 @@ Print scale that you pass in argument. Example: `C-D-E-F-G-A-B`
 Takes the first note of the scale as root note.
 
 Usage:
-  neck scale [flags]
+  tfb scale [flags]
 
 Flags:
 
@@ -79,14 +80,17 @@ Flags:
 
 - `m`, `--mode` string    Select the display mode either `circle` or `note`. Default to circle
 
+- `i`, `--inst` string    Set the instrument type, `G` for guitar, `B` for Bass, `U` for Ukulele (default `G`)
+
 # TODO
 
-- `s`, `--style` options to choose the renderng style: utf8, ascii, etc...
+- [] `s`, `--style` options to choose the renderng style: utf8, ascii, etc...
 - [x] An options to display note names instead of circles. Maybe `--mode`, `m` 
-- Include root and name in the chord string
-- Add tests and verify everything works with `#` and `b` note with  
-- Add a `quiz` subcommand that randomly display a fret on the screen and wait for you to type the note's name.
-- Make the base command `tfb` displaying the fretboard with all the notes.
- - `-i`, `--instrument` option to choose between Guitar, Bass, Ukulele
- - `-t`, `--tuning` option to choose the tuning
+- [] Include root and name in the chord string
+- [x] Verify everything works with `#` and `b` note with  
+- [] Add a `quiz` subcommand that randomly display a fret on the screen and wait for you to type the note's name.
+- [] Make the base command `tfb` displaying the fretboard with all the notes.
+- [x] `-i`, `--instrument` option to choose between Guitar, Bass, Ukulele
+- [] `-t`, `--tuning` option to choose the tuning
+- [] Add tests
 

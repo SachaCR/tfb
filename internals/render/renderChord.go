@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func RenderChord(neck neck.Neck, chord string, root string, chordName string) (string, error) {
+func RenderChord(neck *neck.Neck, chord string, root string, chordName string) (string, error) {
 
 	fretsToDraw := strings.Split(chord, "-")
 

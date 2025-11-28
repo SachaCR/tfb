@@ -36,7 +36,52 @@ func (neck Neck) StringCount() int {
 	return len(neck.strings)
 }
 
-func GuitarNeck() Neck {
+func New(instrument string) *Neck {
+	switch instrument {
+	case "B":
+		return BassNeck()
+
+	case "U":
+		return UkuleleNeck()
+
+	default:
+		return GuitarNeck()
+	}
+}
+func UkuleleNeck() *Neck {
+
+	var fretStrings []frets.FretString
+
+	neck := Neck{
+		instrument: "Ukulele",
+		strings:    fretStrings,
+	}
+
+	neck.AddString(music.G)
+	neck.AddString(music.C)
+	neck.AddString(music.E)
+	neck.AddString(music.A)
+
+	return &neck
+}
+func BassNeck() *Neck {
+
+	var fretStrings []frets.FretString
+
+	neck := Neck{
+		instrument: "Bass",
+		strings:    fretStrings,
+	}
+
+	neck.AddString(music.E)
+	neck.AddString(music.A)
+	neck.AddString(music.D)
+	neck.AddString(music.G)
+
+	return &neck
+
+}
+func GuitarNeck() *Neck {
 	var fretStrings []frets.FretString
 
 	neck := Neck{
@@ -51,5 +96,5 @@ func GuitarNeck() Neck {
 	neck.AddString(music.B)
 	neck.AddString(music.E)
 
-	return neck
+	return &neck
 }

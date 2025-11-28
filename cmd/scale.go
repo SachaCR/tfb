@@ -12,12 +12,14 @@ var scaleName string
 var from int
 var to int
 var mode string
+var instrument string
 
 func init() {
 	scaleCmd.PersistentFlags().StringVarP(&scaleName, "name", "n", "", "Set the scale name. Example: Major")
 	scaleCmd.PersistentFlags().IntVarP(&from, "from", "f", 1, "Render from that fret number")
 	scaleCmd.PersistentFlags().IntVarP(&to, "to", "t", 12, "Last fret number to render")
 	scaleCmd.PersistentFlags().StringVarP(&mode, "mode", "m", "circle", "Set the display mode to `circle` or `note`. Default to `circle`")
+	scaleCmd.PersistentFlags().StringVarP(&instrument, "inst", "i", "G", "Set the instrument type, G for guitar, B for Bass, U for Ukulele")
 }
 
 var scaleCmd = &cobra.Command{
@@ -35,7 +37,7 @@ var scaleCmd = &cobra.Command{
 			panic("Invalid Scale Input")
 		}
 
-		neck := neck.GuitarNeck()
+		neck := neck.New(instrument)
 
 		if scaleName != "" {
 			fmt.Println("Scale:", scale.Root().String(), scaleName)
