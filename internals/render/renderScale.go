@@ -3,6 +3,7 @@ package render
 import (
 	"github.com/SachaCR/tfb/internals/music"
 	"github.com/SachaCR/tfb/internals/neck"
+	"strconv"
 )
 
 func RenderScale(neck *neck.Neck, scale *music.Scale, from int, to int, mode string) string {
@@ -13,6 +14,18 @@ func RenderScale(neck *neck.Neck, scale *music.Scale, from int, to int, mode str
 	strings := neck.Strings()
 
 	renderString := ""
+
+	if scale.Name() != "" {
+		renderString = renderString + "Scale: " + scale.Root().String() + " " + scale.Name() + "\n"
+	}
+
+	if from < 1 {
+		from = 1
+	}
+
+	if from > 1 {
+		renderString = renderString + "    " + strconv.Itoa(from) + "ft\n"
+	}
 
 	// Rendering backwards to have high E string on top
 	for i := len(strings) - 1; i >= 0; i-- {
@@ -52,6 +65,8 @@ func RenderScale(neck *neck.Neck, scale *music.Scale, from int, to int, mode str
 
 		renderString = renderString + "\n"
 	}
+
+	renderString = renderString + "               •         •         •         •              ••\n"
 
 	return renderString
 }

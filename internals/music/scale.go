@@ -12,6 +12,10 @@ type Scale struct {
 	alterations []string
 }
 
+func (scale Scale) Name() string {
+	return scale.name
+}
+
 func (scale Scale) Contains(note Note) bool {
 	noteFound := false
 

@@ -39,22 +39,8 @@ var scaleCmd = &cobra.Command{
 
 		neck := neck.New(instrument)
 
-		if scaleName != "" {
-			fmt.Println("Scale:", scale.Root().String(), scaleName)
-		}
-
-		if from < 1 {
-			from = 1
-		}
-
-		if from > 1 {
-			fmt.Println("    ", from, "ft")
-		}
-
 		scaleAsString := render.RenderScale(neck, scale, from, to, mode)
 
 		fmt.Print(scaleAsString)
-		//fmt.Println("               .         .         .         .              ..")
-		fmt.Println("               •         •         •         •              ••")
 	},
 }

@@ -14,7 +14,7 @@ func (neck *Neck) AddString(note music.Note) {
 	neck.strings = append(neck.strings, frets.NewFretString(note))
 }
 
-func (neck Neck) Insrtrument() string {
+func (neck Neck) Instrument() string {
 	return neck.instrument
 }
 
