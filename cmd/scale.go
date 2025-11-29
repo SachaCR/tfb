@@ -8,14 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var scaleName string
-var from int
-var to int
-var mode string
-var instrument string
-
 func init() {
-	scaleCmd.PersistentFlags().StringVarP(&scaleName, "name", "n", "", "Set the scale name. Example: Major")
+	scaleCmd.PersistentFlags().StringVarP(&name, "name", "n", "", "Set the scale name. Example: Major")
 	scaleCmd.PersistentFlags().IntVarP(&from, "from", "f", 1, "Render from that fret number")
 	scaleCmd.PersistentFlags().IntVarP(&to, "to", "t", 12, "Last fret number to render")
 	scaleCmd.PersistentFlags().StringVarP(&mode, "mode", "m", "circle", "Set the display mode to `circle` or `note`. Default to `circle`")
@@ -31,7 +25,7 @@ var scaleCmd = &cobra.Command{
 
 		scaleInput := args[0]
 
-		scale, err := music.ParseScale(scaleInput, scaleName)
+		scale, err := music.ParseScale(scaleInput, name)
 
 		if err != nil {
 			panic("Invalid Scale Input")

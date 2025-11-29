@@ -1,5 +1,9 @@
 package music
 
+import (
+	"strings"
+)
+
 type Mode struct {
 	name      string
 	intervals []int
@@ -30,6 +34,10 @@ func (mode Mode) ToScale(root Note) *Scale {
 	return scale
 }
 
+func (mode Mode) Intervals() []int {
+	return mode.intervals
+}
+
 func Ionian() *Mode {
 	return NewMode("Ionian", []int{2, 2, 1, 2, 2, 2, 1})
 }
@@ -40,6 +48,25 @@ func Dorian() *Mode {
 
 func Chromatic() *Mode {
 	return NewMode("Chromatic", []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})
+}
+
+func FindMode(modeName string) *Mode {
+	switch strings.ToLower(modeName) {
+	case "ionian":
+		return Ionian()
+
+	case "major":
+		return Ionian()
+
+	case "dorian":
+		return Dorian()
+
+	case "chromatic":
+		return Chromatic()
+
+	default:
+		return nil
+	}
 }
 
 func NewMode(name string, intervals []int) *Mode {

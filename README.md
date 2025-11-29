@@ -94,4 +94,5 @@ Flags:
 - [x] `-i`, `--instrument` option to choose between Guitar, Bass, Ukulele
 - [ ] `-t`, `--tuning` option to choose the tuning
 - [ ] Add tests
+- [ ] Make tfb root command interactive. Allow to select a mode and a root and then render the neck
 
