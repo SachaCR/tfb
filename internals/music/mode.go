@@ -5,8 +5,8 @@ import (
 )
 
 type Mode struct {
-	name      string
-	intervals []int
+	name  string
+	steps []int
 }
 
 func (mode Mode) ToScale(root Note) *Scale {
@@ -15,7 +15,7 @@ func (mode Mode) ToScale(root Note) *Scale {
 
 	scaleNotes = append(scaleNotes, root)
 
-	for _, tone := range mode.intervals {
+	for _, tone := range mode.steps {
 		previousNote := scaleNotes[len(scaleNotes)-1]
 		nextNote := previousNote.AddTone(tone)
 
@@ -34,8 +34,13 @@ func (mode Mode) ToScale(root Note) *Scale {
 	return scale
 }
 
-func (mode Mode) Intervals() []int {
-	return mode.intervals
+func (mode Mode) Intervals() []string {
+	// TODO implement steps to intervals
+	return []string{}
+}
+
+func (mode Mode) Steps() []int {
+	return mode.steps
 }
 
 func Ionian() *Mode {

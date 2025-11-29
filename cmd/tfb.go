@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/SachaCR/tfb/internals/music"
-	"github.com/SachaCR/tfb/internals/neck"
-	"github.com/SachaCR/tfb/internals/render"
+	// "github.com/SachaCR/tfb/internals/neck"
+	// "github.com/SachaCR/tfb/internals/render"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -29,19 +29,30 @@ var rootCmd = &cobra.Command{
 
 		if mode == nil {
 			fmt.Println("Unknow Mode")
-		} else {
-			fmt.Println(mode.Intervals())
+			return
 		}
 
-		neck := neck.New(instrument)
+		// 1. Print interval list : 2M 3m 4 5 6M 7m
+		fmt.Println(mode.Intervals())
 
-		scale, err := music.ParseScale("C-D-E-F-G-A-B", "Major")
+		// 2. Use buble tea list with fuzzy filtering to select the mode name
 
-		if err != nil {
-			panic(err)
-		}
+		// 3. Allow to select the root note interactively
 
-		fmt.Println(render.RenderScale(neck, scale, 1, 12, "note"))
+		// 4. Render the neck dynamically
+
+		// 5. Allow to change instrument interactively
+
+		//
+		// neck := neck.New(instrument)
+		//
+		// scale, err := music.ParseScale("C-D-E-F-G-A-B", "Major")
+		//
+		// if err != nil {
+		// 	panic(err)
+		// }
+		//
+		// fmt.Println(render.RenderScale(neck, scale, 1, 12, "note"))
 	},
 }
 
