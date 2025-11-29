@@ -14,7 +14,7 @@ func (neckString NeckString) FretToNote(fretNumber int) music.Note {
 
 	fretIndex := (fretNumber + stringNoteIndex) % 12
 
-	return music.FromInt(fretIndex)
+	return music.NoteFromInt(fretIndex)
 }
 
 func (neckString NeckString) Tuning() music.Note {
