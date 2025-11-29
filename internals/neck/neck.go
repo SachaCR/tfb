@@ -7,18 +7,18 @@ import (
 
 type Neck struct {
 	instrument string
-	strings    []frets.FretString
+	strings    []frets.NeckString
 }
 
 func (neck *Neck) AddString(note music.Note) {
-	neck.strings = append(neck.strings, frets.NewFretString(note))
+	neck.strings = append(neck.strings, frets.NewNeckString(note))
 }
 
 func (neck Neck) Instrument() string {
 	return neck.instrument
 }
 
-func (neck Neck) Strings() []frets.FretString {
+func (neck Neck) Strings() []frets.NeckString {
 	return neck.strings
 }
 
@@ -50,7 +50,7 @@ func New(instrument string) *Neck {
 }
 func UkuleleNeck() *Neck {
 
-	var fretStrings []frets.FretString
+	var fretStrings []frets.NeckString
 
 	neck := Neck{
 		instrument: "Ukulele",
@@ -66,7 +66,7 @@ func UkuleleNeck() *Neck {
 }
 func BassNeck() *Neck {
 
-	var fretStrings []frets.FretString
+	var fretStrings []frets.NeckString
 
 	neck := Neck{
 		instrument: "Bass",
@@ -82,7 +82,7 @@ func BassNeck() *Neck {
 
 }
 func GuitarNeck() *Neck {
-	var fretStrings []frets.FretString
+	var fretStrings []frets.NeckString
 
 	neck := Neck{
 		instrument: "Guitare",

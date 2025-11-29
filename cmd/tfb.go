@@ -9,12 +9,19 @@ import (
 	"os"
 )
 
+var instrumentName string
+
+func init() {
+	rootCmd.PersistentFlags().StringVarP(&instrumentName, "inst", "i", "G", "Set the instrument type, G for guitar, B for Bass, U for Ukulele")
+}
+
 var rootCmd = &cobra.Command{
 	Use:   "tfb",
 	Short: "tfb is a tools for guitarists that display neck diagrams",
 	Long:  `tfb allows to display guitar neck diagrams. It also support bass and ukulele and potentially any instruments with strings and frets.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		neck := neck.GuitarNeck()
+		neck := neck.New(instrumentName)
+
 		scale, err := music.ParseScale("C-D-E-F-G-A-B", "Major")
 
 		if err != nil {

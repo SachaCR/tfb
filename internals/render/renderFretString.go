@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func RenderFretString(fretString frets.FretString, from int, to int, fret string, root string, stringPosition StringPosition, style ChordStyle) string {
+func RenderFretString(fretString frets.NeckString, from int, to int, fret string, root string, stringPosition StringPosition, style ChordStyle) string {
 
 	if from >= to {
 		return ""

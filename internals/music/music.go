@@ -59,6 +59,14 @@ func (n Note) ToInt() int {
 	return int(n % 12)
 }
 
+func (n Note) AddTone(tone int) Note {
+
+	newNote := FromInt(n.ToInt() + tone)
+
+	return newNote
+
+}
+
 // String returns the note name
 func (n Note) String() string {
 	return [...]string{
