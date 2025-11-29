@@ -45,8 +45,8 @@ func ParseNote(s string) (Note, bool) {
 	return n, ok
 }
 
-// FromInt converts an integer to a Note
-func FromInt(i int) Note {
+// NoteFromInt converts an integer to a Note
+func NoteFromInt(i int) Note {
 	if i < 0 {
 		i = (i%12 + 12) % 12 // handle negative numbers
 	}
@@ -61,10 +61,9 @@ func (n Note) ToInt() int {
 
 func (n Note) AddTone(tone int) Note {
 
-	newNote := FromInt(n.ToInt() + tone)
+	newNote := NoteFromInt(n.ToInt() + tone)
 
 	return newNote
-
 }
 
 // String returns the note name

@@ -23,3 +23,7 @@ test: ## Test the service with default test runner
 .PHONY: coverage
 coverage: test ## Open test coverage 
 	go tool cover -html=coverage.out
+
+.PHONY: check
+check: 
+	go run main.go Dorian -r D && go run main.go chord 5-5-5-5-5-5 -r A && go run main.go scale C-D-E-F-G-A-B -i U && go run main.go chord 0-2-2-0-0-0 -r E && go run main.go scale C-D-E-F-G-A-B -m note

@@ -6,7 +6,7 @@ import (
 
 type Mode struct {
 	name      string
-	intervals []int
+	intervals []Interval
 }
 
 func (mode Mode) ToScale(root Note) *Scale {
@@ -15,9 +15,8 @@ func (mode Mode) ToScale(root Note) *Scale {
 
 	scaleNotes = append(scaleNotes, root)
 
-	for _, tone := range mode.intervals {
-		previousNote := scaleNotes[len(scaleNotes)-1]
-		nextNote := previousNote.AddTone(tone)
+	for _, interval := range mode.intervals {
+		nextNote := root.AddTone(interval.Semitones())
 
 		if nextNote == root || len(scaleNotes) == 12 {
 			break
@@ -34,20 +33,31 @@ func (mode Mode) ToScale(root Note) *Scale {
 	return scale
 }
 
-func (mode Mode) Intervals() []int {
-	return mode.intervals
+// String returns the raw interval string.
+func (i Interval) String() string {
+	return string(i)
+}
+
+func (mode Mode) Intervals() []string {
+	intervalStrings := []string{}
+
+	for _, interval := range mode.intervals {
+		intervalStrings = append(intervalStrings, interval.String())
+	}
+
+	return intervalStrings
 }
 
 func Ionian() *Mode {
-	return NewMode("Ionian", []int{2, 2, 1, 2, 2, 2, 1})
+	return NewMode("Ionian", []Interval{Interval2, Interval3, Interval4, Interval5, Interval6, Interval7})
 }
 
 func Dorian() *Mode {
-	return NewMode("Dorian", []int{2, 1, 2, 2, 2, 1, 2})
+	return NewMode("Dorian", []Interval{Interval2, Interval3m, Interval4, Interval5, Interval6, Interval7m})
 }
 
 func Chromatic() *Mode {
-	return NewMode("Chromatic", []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1})
+	return NewMode("Chromatic", []Interval{Interval2m, Interval2, Interval3m, Interval3, Interval4, Interval5b, Interval5, Interval6m, Interval6, Interval7m, Interval7})
 }
 
 func FindMode(modeName string) *Mode {
@@ -69,7 +79,7 @@ func FindMode(modeName string) *Mode {
 	}
 }
 
-func NewMode(name string, intervals []int) *Mode {
+func NewMode(name string, intervals []Interval) *Mode {
 	return &Mode{
 		name,
 		intervals,
