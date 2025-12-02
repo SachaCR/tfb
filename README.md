@@ -84,7 +84,7 @@ Flags:
 
 # TODO
 
-- [ ] Rename fretString into neckString and move it under the neck package
+- [x] Rename fretString into neckString and move it under the neck package
 - [ ] Add a pkg directory at the root of the repository. Verify what is internal or not.
 - [ ] `s`, `--style` options to choose the renderng style: utf8, ascii, etc...
 - [x] An options to display note names instead of circles. Maybe `--mode`, `m` 
@@ -94,5 +94,6 @@ Flags:
 - [x] `-i`, `--instrument` option to choose between Guitar, Bass, Ukulele
 - [ ] `-t`, `--tuning` option to choose the tuning
 - [ ] Add tests
-- [ ] Make tfb root command interactive. Allow to select a mode and a root and then render the neck
+- [x] Make tfb root command interactive. Allow to select a mode and a root and then render the neck
+- [ ] Refactor root command to separate concerns
 

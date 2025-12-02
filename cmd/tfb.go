@@ -39,7 +39,7 @@ var rootCmd = &cobra.Command{
 
 		// If no mode name is passed in arguments we allow the user to search in a predefined list
 		if modeName == "" {
-			list := list.New([]list.Item{item{title: "Ionian", desc: ""}, item{title: "Dorian", desc: ""}, item{title: "Chromatic", desc: ""}}, list.NewDefaultDelegate(), 0, 0)
+			list := list.New(buildChoices(), list.NewDefaultDelegate(), 0, 0)
 			list.SetFilteringEnabled(true)
 			list.Title = "Modes"
 
@@ -65,7 +65,6 @@ var rootCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println("root:", root)
 		scale := mode.ToScale(music.NoteFromString[root])
 		fmt.Println(render.RenderScale(neck.New(instrument), scale, 1, 12, "circle"))
 
@@ -137,11 +136,23 @@ func (m model) View() string {
 	}
 
 	mode := music.FindMode(modeName)
-
 	scale := mode.ToScale(music.NoteFromString[m.root.String()])
+
 	diagramString := render.RenderScale(neck.New(instrument), scale, 1, 12, "circle")
 
-	// fmt.Println("Intervals: ", strings.Join(mode.Intervals(), " "))
-
 	return diagramString + "\nIntervals: " + strings.Join(mode.Intervals(), " ") + "\n" + m.list.View()
+}
+
+func buildChoices() []list.Item {
+
+	var choices []list.Item
+
+	for _, mode := range music.ModeMap {
+		choices = append(choices, item{
+			title: mode.Name(),
+			desc:  "",
+		})
+	}
+
+	return choices
 }
