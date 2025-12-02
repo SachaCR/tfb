@@ -2,7 +2,7 @@
 
 Terminal Fret Board: A CLI tool that display guitar chords and scales in the terminal It is built to allow supporting any kind of instrument that has string with frets.
 
-It's a tool for the true nerds. Those who never quit their terminal. Now they will be able to stay in the terminal even when practicing guitar.
+It's one more reason to stay in your terminal. 
 
 # TFB command 
 
