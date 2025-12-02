@@ -4,6 +4,16 @@ Terminal Fret Board: A CLI tool that display guitar chords and scales in the ter
 
 It's a tool for the true nerds. Those who never quit their terminal. Now they will be able to stay in the terminal even when practicing guitar.
 
+# TFB command 
+
+By default the `tfb` command is interactive, allowing you to search for a given mode and root note.
+
+![tfb demo gif](./images/tfb-demo.gif)
+
+But you can also pass argument like this 
+
+`tfb ionian -r D` : This will directly render the diagram to the standard output.
+
 # Chords
 
 ```bash
