@@ -1,12 +1,19 @@
-# Terminal Fret Board
+# Terminal Fret Board 
 
-Terminal Fret Board: A CLI tool that display guitar chords and scales in the terminal It is built to allow supporting any kind of instrument that has string with frets.
+A CLI tool that display guitar chords and scales in the terminal. It is built to supports any kind of instrument that has strings with frets.
 
 It's one more reason to stay in your terminal. 
 
 # TFB command 
 
 By default the `tfb` command is interactive, allowing you to search for a given mode and root note.
+
+- use `up` and `down` to browse the list.
+- use `left` and `right` to change root note.
+- use `/` to fuzzy search a mode name.
+- use `esc` to reset the UI.
+
+Tips: `hjkl` are supported too.
 
 ![tfb demo gif](./images/tfb-demo.gif)
 
