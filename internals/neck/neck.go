@@ -85,7 +85,7 @@ func GuitarNeck() *Neck {
 	var fretStrings []frets.NeckString
 
 	neck := Neck{
-		instrument: "Guitare",
+		instrument: "Guitar",
 		strings:    fretStrings,
 	}
 

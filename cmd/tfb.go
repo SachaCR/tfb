@@ -5,11 +5,14 @@ import (
 	"github.com/SachaCR/tfb/internals/music"
 	"github.com/SachaCR/tfb/internals/neck"
 	"github.com/SachaCR/tfb/internals/render"
+	"github.com/SachaCR/tfb/internals/ui/modeList"
+	key "github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -39,13 +42,46 @@ var rootCmd = &cobra.Command{
 
 		// If no mode name is passed in arguments we allow the user to search in a predefined list
 		if modeName == "" {
-			list := list.New(buildChoices(), list.NewDefaultDelegate(), 0, 0)
+
+			list := list.New(buildChoices(), modeList.ItemDelegate{}, 0, 0)
+
 			list.SetFilteringEnabled(true)
+
 			list.Title = "Modes"
 
+			list.KeyMap.CursorUp.SetHelp("↑/k", "Up")
+			list.KeyMap.CursorDown.SetHelp("↓/j", "Down")
+			list.KeyMap.NextPage.SetHelp("←/→ h/l ", "← Root →")
+
+			list.KeyMap.PrevPage.SetEnabled(false)
+			list.KeyMap.GoToEnd.SetEnabled(false)
+			list.KeyMap.GoToStart.SetEnabled(false)
+
+			instrumentBindings :=
+				key.NewBinding(
+					key.WithKeys("g"),
+					key.WithKeys("u"),
+					key.WithKeys("b"),
+					key.WithHelp("u/g/b", "Change instrument"),
+				)
+
+			list.AdditionalShortHelpKeys = func() []key.Binding {
+				return []key.Binding{
+					list.KeyMap.NextPage,
+					instrumentBindings,
+				}
+			}
+
+			list.AdditionalFullHelpKeys = func() []key.Binding {
+				return []key.Binding{
+					instrumentBindings,
+				}
+			}
+
 			model := &model{
-				list: list,
-				root: music.NoteFromString[root],
+				list:       list,
+				root:       music.NoteFromString[root],
+				instrument: instrument,
 			}
 
 			p := tea.NewProgram(model, tea.WithAltScreen())
@@ -68,7 +104,7 @@ var rootCmd = &cobra.Command{
 		scale := mode.ToScale(music.NoteFromString[root])
 		fmt.Println(render.RenderScale(neck.New(instrument), scale, 1, 12, "circle"))
 
-		fmt.Println("Intervals: ", strings.Join(mode.Intervals(), " "), "\n")
+		fmt.Println("Intervals: ", strings.Join(mode.Intervals(), " "))
 	},
 }
 
@@ -80,19 +116,12 @@ func Execute() {
 }
 
 type model struct {
-	cursor int
-	list   list.Model
-	choice string
-	root   music.Note
+	cursor     int
+	list       list.Model
+	choice     string
+	root       music.Note
+	instrument string
 }
-
-type item struct {
-	title, desc string
-}
-
-func (i item) Title() string       { return i.title }
-func (i item) Description() string { return i.desc }
-func (i item) FilterValue() string { return i.title }
 
 func (m model) Init() tea.Cmd {
 	return nil
@@ -108,11 +137,25 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c", "q":
 			return m, tea.Quit
 
-		case "h":
+		case "h", "left":
 			m.root = m.root.AddTone(-1)
+			return m, nil
 
-		case "l":
+		case "l", "right":
 			m.root = m.root.AddTone(1)
+			return m, nil
+
+		case "U", "u":
+			m.instrument = "U"
+			return m, nil
+
+		case "G", "g":
+			m.instrument = "G"
+			return m, nil
+
+		case "B", "b":
+			m.instrument = "B"
+			return m, nil
 		}
 
 	case tea.WindowSizeMsg:
@@ -129,30 +172,31 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	var modeName = "ionian"
 
-	i, ok := m.list.SelectedItem().(item)
+	i, ok := m.list.SelectedItem().(modeList.Item)
 
 	if ok {
-		modeName = string(i.title)
+		modeName = string(i.Title())
 	}
 
 	mode := music.FindMode(modeName)
 	scale := mode.ToScale(music.NoteFromString[m.root.String()])
+	neck := neck.New(m.instrument)
+	diagramString := render.RenderScale(neck, scale, 1, 12, "circle")
 
-	diagramString := render.RenderScale(neck.New(instrument), scale, 1, 12, "circle")
-
-	return diagramString + "\nIntervals: " + strings.Join(mode.Intervals(), " ") + "\n" + m.list.View()
+	return "Instrument: " + neck.Instrument() + "\n" + diagramString + "\nIntervals: " + strings.Join(mode.Intervals(), " ") + "\n" + m.list.View()
 }
 
 func buildChoices() []list.Item {
-
 	var choices []list.Item
 
 	for _, mode := range music.ModeMap {
-		choices = append(choices, item{
-			title: mode.Name(),
-			desc:  "",
-		})
+		choices = append(choices, modeList.NewItem(mode.Name()))
 	}
+
+	// Order choice alphabeticaly
+	sort.Slice(choices, func(i, j int) bool {
+		return choices[i].FilterValue() < choices[j].FilterValue()
+	})
 
 	return choices
 }

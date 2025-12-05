@@ -16,7 +16,7 @@ func RenderScale(neck *neck.Neck, scale *music.Scale, from int, to int, mode str
 	renderString := ""
 
 	if scale.Name() != "" {
-		renderString = renderString + "Scale: " + scale.Root().String() + " " + scale.Name() + "\n"
+		renderString = renderString + "Scale: " + scale.Root().String() + " " + scale.Name() + "\n\n"
 	}
 
 	if from < 1 {

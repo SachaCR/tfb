@@ -9,9 +9,10 @@ It's one more reason to stay in your terminal.
 By default the `tfb` command is interactive, allowing you to search for a given mode and root note.
 
 - use `up` and `down` to browse the list.
-- use `left` and `right` to change root note.
+- use `left` and `right` to change the root note.
 - use `/` to fuzzy search a mode name.
 - use `esc` to reset the UI.
+- use `g`, `u`, `b` to switch instrument (Guitar, Ukulele, Bass)
 
 Tips: `hjkl` are supported too.
 
@@ -101,6 +102,8 @@ Flags:
 
 # TODO
 
+- [ ] Customize list item styling to take less space
+- [x] Bug: conflict on key `h` and `l` that changes the root and the pagination in interactive mode
 - [x] Rename fretString into neckString and move it under the neck package
 - [ ] Add a pkg directory at the root of the repository. Verify what is internal or not.
 - [ ] `s`, `--style` options to choose the renderng style: utf8, ascii, etc...

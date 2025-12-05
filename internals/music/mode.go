@@ -1,9 +1,5 @@
 package music
 
-import (
-	"strings"
-)
-
 type Mode struct {
 	name      string
 	intervals []Interval
@@ -54,18 +50,40 @@ func (mode Mode) Intervals() []string {
 var ModeMap = map[string]*Mode{}
 
 func init() {
-	ModeMap["ionian"] = NewMode("Ionian", []Interval{Interval2, Interval3, Interval4, Interval5, Interval6, Interval7})
-	ModeMap["dorian"] = NewMode("Dorian", []Interval{Interval2, Interval3m, Interval4, Interval5, Interval6, Interval7m})
-	ModeMap["phrygian"] = NewMode("Phrygian", []Interval{Interval2m, Interval3m, Interval4, Interval5, Interval6m, Interval7m})
-	ModeMap["lydian"] = NewMode("Lydian", []Interval{Interval2, Interval3, Interval4p, Interval5, Interval6, Interval7})
-	ModeMap["mixolydian"] = NewMode("Mixolydian", []Interval{Interval2, Interval3, Interval4, Interval5, Interval6, Interval7})
-	ModeMap["aeolian"] = NewMode("Aeolian", []Interval{Interval2, Interval3m, Interval4, Interval5, Interval6m, Interval7m})
-	ModeMap["locrian"] = NewMode("Locrian", []Interval{Interval2m, Interval3m, Interval4, Interval5b, Interval6m, Interval7m})
-	ModeMap["chromatic"] = NewMode("Chromatic", []Interval{Interval2m, Interval2, Interval3m, Interval3, Interval4, Interval5b, Interval5, Interval6m, Interval6, Interval7m, Interval7})
+	major := []Interval{Interval2, Interval3, Interval4, Interval5, Interval6, Interval7}
+	minor := []Interval{Interval2, Interval3m, Interval4, Interval5, Interval6m, Interval7m}
+
+	// Basic Modes
+	ModeMap["Major"] = NewMode("Major", major)
+	ModeMap["Minor"] = NewMode("Minor", minor)
+
+	// Musical Modes
+	ModeMap["Ionian"] = NewMode("Ionian", major)
+	ModeMap["Dorian"] = NewMode("Dorian", []Interval{Interval2, Interval3m, Interval4, Interval5, Interval6, Interval7m})
+	ModeMap["Phrygian"] = NewMode("Phrygian", []Interval{Interval2m, Interval3m, Interval4, Interval5, Interval6m, Interval7m})
+	ModeMap["Lydian"] = NewMode("Lydian", []Interval{Interval2, Interval3, Interval4p, Interval5, Interval6, Interval7})
+	ModeMap["Mixolydian"] = NewMode("Mixolydian", []Interval{Interval2, Interval3, Interval4, Interval5, Interval6, Interval7m})
+	ModeMap["Aeolian"] = NewMode("Aeolian", minor)
+	ModeMap["Locrian"] = NewMode("Locrian", []Interval{Interval2m, Interval3m, Interval4, Interval5b, Interval6m, Interval7m})
+
+	// Pentatonic Modes
+	ModeMap["Minor Pentatonic"] = NewMode("Minor Pentatonic", []Interval{Interval3m, Interval4, Interval5, Interval7m})
+	ModeMap["Major Pentatonic"] = NewMode("Major Pentatonic", []Interval{Interval2, Interval3, Interval5, Interval6})
+	ModeMap["Egyptian"] = NewMode("Egyptian", []Interval{Interval2, Interval4, Interval5, Interval7m})
+	ModeMap["Quang ming"] = NewMode("Quand Ming", []Interval{Interval3m, Interval4, Interval5p, Interval7m})
+	ModeMap["Ritusen"] = NewMode("Ritusen", []Interval{Interval2, Interval4, Interval5, Interval6})
+
+	// ModeMap["chromatic"] = NewMode("Chromatic", []Interval{Interval2m, Interval2, Interval3m, Interval3, Interval4, Interval5b, Interval5, Interval6m, Interval6, Interval7m, Interval7})
 }
 
 func FindMode(modeName string) *Mode {
-	mode := ModeMap[strings.ToLower(modeName)]
+	mode, ok := ModeMap[modeName]
+
+	if !ok {
+		// This is better than crashing
+		mode = ModeMap["Major"]
+	}
+
 	return mode
 }
 
