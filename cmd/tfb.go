@@ -84,10 +84,10 @@ var rootCmd = &cobra.Command{
 				instrument: instrument,
 			}
 
-			p := tea.NewProgram(model, tea.WithAltScreen())
+			program := tea.NewProgram(model, tea.WithAltScreen())
 
-			if _, err := p.Run(); err != nil {
-				fmt.Printf("Alas, there's been an error: %v", err)
+			if _, err := program.Run(); err != nil {
+				fmt.Printf("Oups! There's been an error: %v", err)
 				os.Exit(1)
 			}
 

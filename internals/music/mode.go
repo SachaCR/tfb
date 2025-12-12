@@ -26,6 +26,7 @@ func (mode Mode) ToScale(root Note) *Scale {
 	}
 
 	scale, err := NewScale(scaleNotes, root, mode.name, []string{})
+
 	if err != nil {
 		panic("Invalid Scale")
 	}

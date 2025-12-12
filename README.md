@@ -102,7 +102,7 @@ Flags:
 
 # TODO
 
-- [ ] Customize list item styling to take less space
+- [x] Customize list item styling to take less space
 - [x] Bug: conflict on key `h` and `l` that changes the root and the pagination in interactive mode
 - [x] Rename fretString into neckString and move it under the neck package
 - [ ] Add a pkg directory at the root of the repository. Verify what is internal or not.
