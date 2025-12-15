@@ -1,8 +1,10 @@
 package neck
 
 import (
+	"errors"
 	"github.com/SachaCR/tfb/internals/frets"
 	"github.com/SachaCR/tfb/internals/music"
+	"strings"
 )
 
 type Neck struct {
@@ -34,6 +36,29 @@ func (neck Neck) Tuning() []music.Note {
 
 func (neck Neck) StringCount() int {
 	return len(neck.strings)
+}
+
+func NewCustom(instrument string, tuning string) (*Neck, error) {
+	var fretStrings []frets.NeckString
+
+	notes := strings.Split(tuning, "-")
+
+	neck := Neck{
+		instrument: instrument,
+		strings:    fretStrings,
+	}
+
+	for _, note := range notes {
+		musicNote, ok := music.ParseNote(note)
+
+		if !ok {
+			return nil, errors.New("Invalid note")
+		}
+
+		neck.AddString(musicNote)
+	}
+
+	return &neck, nil
 }
 
 func New(instrument string) *Neck {

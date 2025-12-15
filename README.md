@@ -16,6 +16,16 @@ By default the `tfb` command is interactive, allowing you to search for a given 
 
 Tips: `hjkl` are supported too.
 
+## Custom Tuning
+
+You can represent any tuning and neck by using the `--tuning`, `-t` flag:
+
+- `tfb --tuning D-A-D-G-B-E`: This would render a neck in Drop D.
+
+You can also add or remove strings:
+
+- `tfb -t B-E-A-D-G-B-E`: 7 strings guitar tuning
+
 ![tfb demo gif](./images/tfb-demo.gif)
 
 But you can also pass argument like this 
@@ -94,11 +104,13 @@ Flags:
 
 - `-f`, `--from` int      Render from that fret number (default 1)
 
-- `-t`, `--to` int        Last fret number to render (default 12)
+- `--to`         int        Last fret number to render (default 12)
 
-- `m`, `--mode` string    Select the display mode either `circle` or `note`. Default to circle
+- `-m`, `--mode` string    Select the display mode either `circle` or `note`. Default to circle
 
-- `i`, `--inst` string    Set the instrument type, `G` for guitar, `B` for Bass, `U` for Ukulele (default `G`)
+- `-i`, `--inst` string    Set the instrument type, `G` for guitar, `B` for Bass, `U` for Ukulele (default `G`)
+
+- `-t`, `--tuning` string    Set a custom instrument tuning ex: `B-E-A-D-G-B-E` for a 7 string guitar. Default to `E-A-D-G-B-E` 
 
 # TODO
 
@@ -112,7 +124,7 @@ Flags:
 - [ ] Add a `quiz` subcommand that randomly display a fret on the screen and wait for you to type the note's name.
 - [x] Make the base command `tfb` displaying the fretboard with all the notes.
 - [x] `-i`, `--instrument` option to choose between Guitar, Bass, Ukulele
-- [ ] `-t`, `--tuning` option to choose the tuning
+- [x] `-t`, `--tuning` option to choose the tuning
 - [ ] Add tests
 - [x] Make tfb root command interactive. Allow to select a mode and a root and then render the neck
 - [ ] Refactor root command to separate concerns
