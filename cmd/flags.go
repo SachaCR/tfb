@@ -6,3 +6,4 @@ var instrument string
 var from int
 var to int
 var mode string
+var tuning string

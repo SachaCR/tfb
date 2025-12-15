@@ -11,9 +11,10 @@ import (
 func init() {
 	scaleCmd.PersistentFlags().StringVarP(&name, "name", "n", "", "Set the scale name. Example: Major")
 	scaleCmd.PersistentFlags().IntVarP(&from, "from", "f", 1, "Render from that fret number")
-	scaleCmd.PersistentFlags().IntVarP(&to, "to", "t", 12, "Last fret number to render")
+	scaleCmd.PersistentFlags().IntVarP(&to, "to", "", 12, "Last fret number to render")
 	scaleCmd.PersistentFlags().StringVarP(&mode, "mode", "m", "circle", "Set the display mode to `circle` or `note`. Default to `circle`")
 	scaleCmd.PersistentFlags().StringVarP(&instrument, "inst", "i", "G", "Set the instrument type, G for guitar, B for Bass, U for Ukulele")
+	scaleCmd.PersistentFlags().StringVarP(&tuning, "tuning", "t", "E-A-D-G-B-E", "Set a custom tuning")
 }
 
 var scaleCmd = &cobra.Command{
@@ -23,6 +24,8 @@ var scaleCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 
+		var err error
+
 		scaleInput := args[0]
 
 		scale, err := music.ParseScale(scaleInput, name)
@@ -31,9 +34,19 @@ var scaleCmd = &cobra.Command{
 			panic("Invalid Scale Input")
 		}
 
-		neck := neck.New(instrument)
+		var instrumentNeck *neck.Neck
 
-		scaleAsString := render.RenderScale(neck, scale, from, to, mode)
+		instrumentNeck = neck.New(instrument)
+
+		if tuning != "" {
+			instrumentNeck, err = neck.NewCustom("Custom instrument", tuning)
+
+			if err != nil {
+				panic(err)
+			}
+		}
+
+		scaleAsString := render.RenderScale(instrumentNeck, scale, from, to, mode)
 
 		fmt.Print(scaleAsString)
 	},

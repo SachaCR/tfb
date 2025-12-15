@@ -24,6 +24,7 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVarP(&instrument, "inst", "i", "G", "Set the instrument type, G for guitar, B for Bass, U for Ukulele")
 	rootCmd.PersistentFlags().StringVarP(&root, "root", "r", "C", "Set the root of your chord")
+	rootCmd.PersistentFlags().StringVarP(&tuning, "tuning", "t", "E-A-D-G-B-E", "Set the tuning of your instrument")
 }
 
 var rootCmd = &cobra.Command{
@@ -82,6 +83,7 @@ var rootCmd = &cobra.Command{
 				list:       list,
 				root:       music.NoteFromString[root],
 				instrument: instrument,
+				tuning:     tuning,
 			}
 
 			program := tea.NewProgram(model, tea.WithAltScreen())
@@ -121,6 +123,7 @@ type model struct {
 	choice     string
 	root       music.Note
 	instrument string
+	tuning     string
 }
 
 func (m model) Init() tea.Cmd {
@@ -180,10 +183,24 @@ func (m model) View() string {
 
 	mode := music.FindMode(modeName)
 	scale := mode.ToScale(music.NoteFromString[m.root.String()])
-	neck := neck.New(m.instrument)
-	diagramString := render.RenderScale(neck, scale, 1, 12, "circle")
 
-	return "Instrument: " + neck.Instrument() + "\n" + diagramString + "\nIntervals: " + strings.Join(mode.Intervals(), " ") + "\n" + m.list.View()
+	var instrumentNeck *neck.Neck
+	var err error
+
+	if m.tuning != "" {
+		instrumentNeck, err = neck.NewCustom("Custom Instrument", m.tuning)
+
+		if err != nil {
+			panic(err)
+		}
+
+	} else {
+		instrumentNeck = neck.New(m.instrument)
+	}
+
+	diagramString := render.RenderScale(instrumentNeck, scale, 1, 12, "circle")
+
+	return "Instrument: " + instrumentNeck.Instrument() + "\n" + diagramString + "\nIntervals: " + strings.Join(mode.Intervals(), " ") + "\n" + m.list.View()
 }
 
 func buildChoices() []list.Item {
