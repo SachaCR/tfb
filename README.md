@@ -16,6 +16,13 @@ By default the `tfb` command is interactive, allowing you to search for a given 
 
 Tips: `hjkl` are supported too.
 
+
+![tfb demo gif](./images/tfb-demo.gif)
+
+But you can also pass argument like this 
+
+`tfb ionian -r D` : This will directly render the diagram to the standard output.
+
 ## Custom Tuning
 
 You can represent any tuning and neck by using the `--tuning`, `-t` flag:
@@ -25,12 +32,6 @@ You can represent any tuning and neck by using the `--tuning`, `-t` flag:
 You can also add or remove strings:
 
 - `tfb -t B-E-A-D-G-B-E`: 7 strings guitar tuning
-
-![tfb demo gif](./images/tfb-demo.gif)
-
-But you can also pass argument like this 
-
-`tfb ionian -r D` : This will directly render the diagram to the standard output.
 
 # Chords
 
