@@ -1,3 +1,5 @@
 tfb
 site/
 coverage.out
+# Added by goreleaser init:
+dist/
