@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  # the workflow can contain other jobs, such as linting, testing, etc.
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # run git checkout
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      # setup go
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.25.4
+
+      # run goreleaser
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          version: latest
+          args: release --rm-dist
+          distribution: goreleaser
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
