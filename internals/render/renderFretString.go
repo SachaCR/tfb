@@ -24,7 +24,7 @@ func RenderFretString(fretString frets.NeckString, from int, to int, fret string
 	case "x":
 		renderString = renderString + initMutedString(stringPosition, isNut, style)
 	case "0":
-		renderString = renderString + initOpenString(stringPosition, isNut, style, isStringRoot)
+		renderString = renderString + initOpenString(stringPosition, isNut, style, isStringRoot && isRootNoteValid)
 	default:
 		renderString = renderString + initString(stringPosition, isNut, style)
 	}
